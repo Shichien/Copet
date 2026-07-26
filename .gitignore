@@ -1,0 +1,17 @@
+# Built from the locally installed Codex package. Never redistribute it.
+runtime/app.asar
+
+# Image-generation intermediates.
+pet/generated/
+pet/decoded/
+pet/qa/composition.json
+pet/qa/validation.json
+
+# Local tooling and caches.
+node_modules/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.log
+.DS_Store
+Thumbs.db

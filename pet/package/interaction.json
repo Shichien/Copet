@@ -1,0 +1,396 @@
+{
+  "schemaVersion": 1,
+  "petId": "daisy",
+  "compatibility": {
+    "officialWakeCommand": "/pet",
+    "officialManifest": "pet.json",
+    "officialAtlas": "spritesheet.webp",
+    "currentCodexReadsInteractionFiles": false,
+    "requiredRuntimeCapability": "interactive-pet-v1"
+  },
+  "atlases": {
+    "interaction": {
+      "path": "interaction-spritesheet.webp",
+      "columns": 8,
+      "rows": 12,
+      "cellWidth": 192,
+      "cellHeight": 208
+    }
+  },
+  "animations": {
+    "feeding": {
+      "atlas": "interaction",
+      "row": 0,
+      "frames": 8,
+      "durationsMs": [
+        130,
+        130,
+        150,
+        170,
+        170,
+        150,
+        150,
+        260
+      ],
+      "loop": false,
+      "interruptible": false
+    },
+    "petting": {
+      "atlas": "interaction",
+      "row": 1,
+      "frames": 6,
+      "durationsMs": [
+        180,
+        140,
+        140,
+        160,
+        180,
+        260
+      ],
+      "loop": true,
+      "interruptible": true
+    },
+    "bathing": {
+      "atlas": "interaction",
+      "row": 2,
+      "frames": 8,
+      "durationsMs": [
+        140,
+        140,
+        160,
+        180,
+        180,
+        150,
+        150,
+        260
+      ],
+      "loop": false,
+      "interruptible": false
+    },
+    "playing": {
+      "atlas": "interaction",
+      "row": 3,
+      "frames": 8,
+      "durationsMs": [
+        130,
+        130,
+        130,
+        160,
+        130,
+        130,
+        160,
+        240
+      ],
+      "loop": true,
+      "interruptible": true
+    },
+    "sleeping": {
+      "atlas": "interaction",
+      "row": 4,
+      "frames": 6,
+      "durationsMs": [
+        320,
+        220,
+        220,
+        260,
+        260,
+        360
+      ],
+      "loop": true,
+      "interruptible": true
+    },
+    "waking": {
+      "atlas": "interaction",
+      "row": 5,
+      "frames": 4,
+      "durationsMs": [
+        220,
+        180,
+        180,
+        300
+      ],
+      "loop": false,
+      "interruptible": false
+    },
+    "hungry": {
+      "atlas": "interaction",
+      "row": 6,
+      "frames": 6,
+      "durationsMs": [
+        220,
+        160,
+        160,
+        180,
+        220,
+        300
+      ],
+      "loop": true,
+      "interruptible": true
+    },
+    "dirty": {
+      "atlas": "interaction",
+      "row": 7,
+      "frames": 6,
+      "durationsMs": [
+        220,
+        160,
+        160,
+        180,
+        220,
+        300
+      ],
+      "loop": true,
+      "interruptible": true
+    },
+    "sick": {
+      "atlas": "interaction",
+      "row": 8,
+      "frames": 8,
+      "durationsMs": [
+        220,
+        180,
+        180,
+        220,
+        180,
+        180,
+        220,
+        320
+      ],
+      "loop": true,
+      "interruptible": true
+    },
+    "happy": {
+      "atlas": "interaction",
+      "row": 9,
+      "frames": 6,
+      "durationsMs": [
+        160,
+        140,
+        140,
+        160,
+        180,
+        260
+      ],
+      "loop": true,
+      "interruptible": true
+    },
+    "celebrate": {
+      "atlas": "interaction",
+      "row": 10,
+      "frames": 8,
+      "durationsMs": [
+        120,
+        120,
+        140,
+        160,
+        160,
+        140,
+        160,
+        280
+      ],
+      "loop": false,
+      "interruptible": false
+    },
+    "refuse": {
+      "atlas": "interaction",
+      "row": 11,
+      "frames": 4,
+      "durationsMs": [
+        180,
+        150,
+        150,
+        280
+      ],
+      "loop": false,
+      "interruptible": false
+    }
+  },
+  "initialState": {
+    "hunger": 80,
+    "cleanliness": 80,
+    "mood": 70,
+    "energy": 80,
+    "health": 100,
+    "growth": 0,
+    "coins": 30
+  },
+  "initialInventory": {
+    "meal": 2,
+    "soap": 1,
+    "toy": 0,
+    "medicine": 1
+  },
+  "needs": {
+    "range": [
+      0,
+      100
+    ],
+    "offlineDecayCapHours": 8,
+    "healthSafeFloor": 20,
+    "criticalHealthDecayPerHour": -2,
+    "decayPerHour": {
+      "hunger": -4,
+      "cleanliness": -2,
+      "mood": -1,
+      "energy": -3,
+      "health": 0
+    }
+  },
+  "automaticStates": [
+    {
+      "when": {
+        "health": {
+          "lte": 30
+        }
+      },
+      "animation": "sick",
+      "priority": 100
+    },
+    {
+      "when": {
+        "hunger": {
+          "lte": 25
+        }
+      },
+      "animation": "hungry",
+      "priority": 90
+    },
+    {
+      "when": {
+        "cleanliness": {
+          "lte": 25
+        }
+      },
+      "animation": "dirty",
+      "priority": 80
+    },
+    {
+      "when": {
+        "energy": {
+          "lte": 20
+        }
+      },
+      "animation": "sleeping",
+      "priority": 70
+    },
+    {
+      "when": {
+        "mood": {
+          "gte": 85
+        }
+      },
+      "animation": "happy",
+      "priority": 10
+    }
+  ],
+  "items": {
+    "meal": {
+      "category": "food",
+      "cost": 8
+    },
+    "soap": {
+      "category": "care",
+      "cost": 6
+    },
+    "toy": {
+      "category": "play",
+      "cost": 12,
+      "consumable": false
+    },
+    "medicine": {
+      "category": "health",
+      "cost": 15
+    }
+  },
+  "actions": {
+    "feed": {
+      "animation": "feeding",
+      "item": "meal",
+      "effects": {
+        "hunger": 30,
+        "mood": 4,
+        "growth": 1
+      },
+      "cooldownSeconds": 30
+    },
+    "pet": {
+      "animation": "petting",
+      "effects": {
+        "mood": 10,
+        "growth": 1,
+        "coins": 2
+      },
+      "cooldownSeconds": 10
+    },
+    "bathe": {
+      "animation": "bathing",
+      "item": "soap",
+      "effects": {
+        "cleanliness": 35,
+        "mood": -2,
+        "growth": 1
+      },
+      "cooldownSeconds": 60
+    },
+    "play": {
+      "animation": "playing",
+      "item": "toy",
+      "effects": {
+        "mood": 18,
+        "energy": -12,
+        "hunger": -6,
+        "growth": 2,
+        "coins": 3
+      },
+      "cooldownSeconds": 60
+    },
+    "sleep": {
+      "animation": "sleeping",
+      "completionAnimation": "waking",
+      "effects": {
+        "energy": 40,
+        "growth": 1
+      },
+      "cooldownSeconds": 120
+    },
+    "treat": {
+      "animation": "sick",
+      "completionAnimation": "happy",
+      "item": "medicine",
+      "effects": {
+        "health": 35,
+        "mood": -3,
+        "growth": 1
+      },
+      "cooldownSeconds": 120
+    }
+  },
+  "taskEventBindings": {
+    "running": {
+      "source": "official",
+      "animation": "running"
+    },
+    "needs-input": {
+      "source": "official",
+      "animation": "waiting"
+    },
+    "ready": {
+      "source": "official",
+      "animation": "review"
+    },
+    "blocked": {
+      "source": "official",
+      "animation": "failed"
+    },
+    "milestone": {
+      "source": "interaction",
+      "animation": "celebrate"
+    }
+  },
+  "transactionPolicy": {
+    "applyEffects": "after-animation-completes",
+    "interruptedAction": "apply-nothing",
+    "clampNeedsToRange": true,
+    "randomness": "forbidden"
+  }
+}

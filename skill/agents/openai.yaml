@@ -1,0 +1,4 @@
+interface:
+  display_name: "Interactive Pet Hatcher"
+  short_description: "Build /pet-compatible pets with interaction assets"
+  default_prompt: "Use $hatch-interactive-pet to build a /pet-compatible pet with feeding, play, care, and growth animations."

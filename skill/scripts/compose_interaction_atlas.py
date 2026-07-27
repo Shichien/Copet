@@ -5,13 +5,24 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
 
 from PIL import Image
 
 
+ALPHA_SEGMENT_THRESHOLD = 128
+ALPHA_EDGE_PADDING = 2
+
+
 def read_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def write_json_atomic(path: Path, value: object) -> None:
+    temporary_path = path.with_name(f".{path.name}.tmp")
+    temporary_path.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+    os.replace(temporary_path, path)
 
 
 def parse_hex_color(value: str) -> tuple[int, int, int]:
@@ -25,16 +36,19 @@ def foreground_mask(
     image: Image.Image,
     chroma: tuple[int, int, int],
     threshold: int,
-) -> tuple[Image.Image, list[int], str]:
+) -> tuple[Image.Image, Image.Image, list[int], str]:
     rgba = image.convert("RGBA")
     alpha = rgba.getchannel("A")
     alpha_minimum, _ = alpha.getextrema()
     if alpha_minimum < 255:
+        segmentation = alpha.point(
+            lambda value: 255 if value > ALPHA_SEGMENT_THRESHOLD else 0
+        )
         column_counts = [0] * rgba.width
-        for index, value in enumerate(alpha.get_flattened_data()):
-            if value > 8:
+        for index, value in enumerate(segmentation.get_flattened_data()):
+            if value:
                 column_counts[index % rgba.width] += 1
-        return alpha, column_counts, "alpha"
+        return alpha, segmentation, column_counts, "alpha"
 
     pixels = list(rgba.get_flattened_data())
     mask_data = bytearray(len(pixels))
@@ -50,7 +64,7 @@ def foreground_mask(
             mask_data[index] = 255
             column_counts[index % rgba.width] += 1
     mask = Image.frombytes("L", rgba.size, bytes(mask_data))
-    return mask, column_counts, "chroma-key"
+    return mask, mask, column_counts, "chroma-key"
 
 
 def active_runs(column_counts: list[int], max_gap: int = 3) -> list[tuple[int, int]]:
@@ -70,17 +84,23 @@ def active_runs(column_counts: list[int], max_gap: int = 3) -> list[tuple[int, i
 
 def crop_pose(
     image: Image.Image,
-    mask: Image.Image,
+    render_mask: Image.Image,
+    segmentation_mask: Image.Image,
     x_range: tuple[int, int],
 ) -> tuple[Image.Image, tuple[int, int, int, int]]:
     left, right = x_range
-    local_mask = mask.crop((left, 0, right, image.height))
+    local_mask = segmentation_mask.crop((left, 0, right, image.height))
     bbox = local_mask.getbbox()
     if bbox is None:
         raise ValueError("pose segment is empty")
-    global_bbox = (left + bbox[0], bbox[1], left + bbox[2], bbox[3])
+    global_bbox = (
+        max(0, left + bbox[0] - ALPHA_EDGE_PADDING),
+        max(0, bbox[1] - ALPHA_EDGE_PADDING),
+        min(image.width, left + bbox[2] + ALPHA_EDGE_PADDING),
+        min(image.height, bbox[3] + ALPHA_EDGE_PADDING),
+    )
     pose = image.convert("RGBA").crop(global_bbox)
-    pose_mask = mask.crop(global_bbox)
+    pose_mask = render_mask.crop(global_bbox)
     pose.putalpha(pose_mask)
     return pose, global_bbox
 
@@ -93,11 +113,13 @@ def extract_poses(
 ) -> tuple[list[Image.Image], list[dict], str]:
     with Image.open(source) as opened:
         image = opened.convert("RGBA")
-    mask, column_counts, mask_source = foreground_mask(image, chroma, threshold)
+    render_mask, segmentation_mask, column_counts, mask_source = foreground_mask(
+        image, chroma, threshold
+    )
     runs = active_runs(column_counts)
     candidates: list[tuple[Image.Image, tuple[int, int, int, int]]] = []
     for run in runs:
-        pose, bbox = crop_pose(image, mask, run)
+        pose, bbox = crop_pose(image, render_mask, segmentation_mask, run)
         opaque_pixels = sum(
             1 for value in pose.getchannel("A").get_flattened_data() if value > 0
         )
@@ -228,6 +250,9 @@ def main() -> None:
     (qa_dir / "composition.json").write_text(
         json.dumps(report, indent=2) + "\n", encoding="utf-8"
     )
+    for job in jobs_manifest["jobs"]:
+        job["status"] = "complete"
+    write_json_atomic(run_dir / "interaction-jobs.json", jobs_manifest)
     print(json.dumps(report, indent=2))
 
 

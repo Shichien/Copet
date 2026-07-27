@@ -1,11 +1,13 @@
 # Built from the locally installed Codex package. Never redistribute it.
-runtime/app.asar
+skill/assets/runtime/app.asar
 
 # Image-generation intermediates.
-pet/generated/
-pet/decoded/
-pet/qa/composition.json
-pet/qa/validation.json
+skill/assets/pet/generated/
+skill/assets/pet/decoded/
+skill/assets/pet/qa/composition.json
+skill/assets/pet/qa/validation.json
+skill/assets/pet/qa/generation.json
+skill/assets/pet/qa/interaction-contact-sheet.png
 
 # Local tooling and caches.
 node_modules/

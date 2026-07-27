@@ -7,7 +7,7 @@ if ($null -eq $nodeCommand -or $null -eq $pythonCommand) {
     throw 'Node.js and Python are required to run the test suite.'
 }
 
-$nodeArgs = @('--test', (Join-Path $repoRoot 'runtime\test-runtime.cjs'))
+$nodeArgs = @('--test', (Join-Path $repoRoot 'skill\assets\runtime\test-runtime.cjs'))
 & $nodeCommand.Source @nodeArgs
 $exitCode = $LASTEXITCODE
 if ($exitCode -ne 0) {
@@ -31,7 +31,7 @@ if ($exitCode -ne 0) {
 $validationArgs = @(
     (Join-Path $repoRoot 'skill\scripts\validate_interaction_pack.py'),
     '--package-dir',
-    (Join-Path $repoRoot 'pet\package')
+    (Join-Path $repoRoot 'skill\assets\pet\package')
 )
 & $pythonCommand.Source @validationArgs
 $exitCode = $LASTEXITCODE

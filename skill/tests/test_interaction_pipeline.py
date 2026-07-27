@@ -106,6 +106,10 @@ class InteractionPipelineTest(unittest.TestCase):
 
     def test_end_to_end_package_is_valid(self) -> None:
         self.prepare_and_compose()
+        jobs = json.loads(
+            (self.run_dir / "interaction-jobs.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual({job["status"] for job in jobs["jobs"]}, {"complete"})
         validation_path = self.run_dir / "qa" / "validation.json"
         validated = self.run_script(
             VALIDATE,

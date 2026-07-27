@@ -1,0 +1,361 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-07-24T03:10:03.503609+08:00",
+  "runDir": ".",
+  "chromaKey": "#0000FF",
+  "chromaKeySelection": {
+    "name": "blue",
+    "hex": "#0000FF",
+    "conflictingOpaquePixels": 0
+  },
+  "jobs": [
+    {
+      "id": "feeding",
+      "kind": "interaction-row-strip",
+      "status": "complete",
+      "promptFile": "prompts/rows/feeding.md",
+      "inputImages": [
+        {
+          "path": "references/canonical-base.png",
+          "role": "canonical pet identity and official idle reference"
+        },
+        {
+          "path": "references/layout-guides/feeding.png",
+          "role": "layout guide only; do not copy visible guide marks"
+        }
+      ],
+      "outputPath": "decoded/feeding.png",
+      "frames": 8,
+      "dependsOn": [],
+      "generationSkill": "$imagegen",
+      "coherentSynthesisRequired": true,
+      "generationMode": "edit",
+      "rawOutputPath": "generated/feeding.png",
+      "postprocess": {
+        "type": "remove-chroma-key",
+        "autoKey": "border",
+        "softMatte": true,
+        "despill": true
+      }
+    },
+    {
+      "id": "petting",
+      "kind": "interaction-row-strip",
+      "status": "complete",
+      "promptFile": "prompts/rows/petting.md",
+      "inputImages": [
+        {
+          "path": "references/canonical-base.png",
+          "role": "canonical pet identity and official idle reference"
+        },
+        {
+          "path": "references/layout-guides/petting.png",
+          "role": "layout guide only; do not copy visible guide marks"
+        }
+      ],
+      "outputPath": "decoded/petting.png",
+      "frames": 6,
+      "dependsOn": [],
+      "generationSkill": "$imagegen",
+      "coherentSynthesisRequired": true,
+      "generationMode": "edit",
+      "rawOutputPath": "generated/petting.png",
+      "postprocess": {
+        "type": "remove-chroma-key",
+        "autoKey": "border",
+        "softMatte": true,
+        "despill": true
+      }
+    },
+    {
+      "id": "bathing",
+      "kind": "interaction-row-strip",
+      "status": "complete",
+      "promptFile": "prompts/rows/bathing.md",
+      "inputImages": [
+        {
+          "path": "references/canonical-base.png",
+          "role": "canonical pet identity and official idle reference"
+        },
+        {
+          "path": "references/layout-guides/bathing.png",
+          "role": "layout guide only; do not copy visible guide marks"
+        }
+      ],
+      "outputPath": "decoded/bathing.png",
+      "frames": 8,
+      "dependsOn": [],
+      "generationSkill": "$imagegen",
+      "coherentSynthesisRequired": true,
+      "generationMode": "edit",
+      "rawOutputPath": "generated/bathing.png",
+      "postprocess": {
+        "type": "remove-chroma-key",
+        "autoKey": "border",
+        "softMatte": true,
+        "despill": true
+      }
+    },
+    {
+      "id": "playing",
+      "kind": "interaction-row-strip",
+      "status": "complete",
+      "promptFile": "prompts/rows/playing.md",
+      "inputImages": [
+        {
+          "path": "references/canonical-base.png",
+          "role": "canonical pet identity and official idle reference"
+        },
+        {
+          "path": "references/layout-guides/playing.png",
+          "role": "layout guide only; do not copy visible guide marks"
+        }
+      ],
+      "outputPath": "decoded/playing.png",
+      "frames": 8,
+      "dependsOn": [],
+      "generationSkill": "$imagegen",
+      "coherentSynthesisRequired": true,
+      "generationMode": "edit",
+      "rawOutputPath": "generated/playing.png",
+      "postprocess": {
+        "type": "remove-chroma-key",
+        "autoKey": "border",
+        "softMatte": true,
+        "despill": true
+      }
+    },
+    {
+      "id": "sleeping",
+      "kind": "interaction-row-strip",
+      "status": "complete",
+      "promptFile": "prompts/rows/sleeping.md",
+      "inputImages": [
+        {
+          "path": "references/canonical-base.png",
+          "role": "canonical pet identity and official idle reference"
+        },
+        {
+          "path": "references/layout-guides/sleeping.png",
+          "role": "layout guide only; do not copy visible guide marks"
+        }
+      ],
+      "outputPath": "decoded/sleeping.png",
+      "frames": 6,
+      "dependsOn": [],
+      "generationSkill": "$imagegen",
+      "coherentSynthesisRequired": true,
+      "generationMode": "edit",
+      "rawOutputPath": "generated/sleeping.png",
+      "postprocess": {
+        "type": "remove-chroma-key",
+        "autoKey": "border",
+        "softMatte": true,
+        "despill": true
+      }
+    },
+    {
+      "id": "waking",
+      "kind": "interaction-row-strip",
+      "status": "complete",
+      "promptFile": "prompts/rows/waking.md",
+      "inputImages": [
+        {
+          "path": "references/canonical-base.png",
+          "role": "canonical pet identity and official idle reference"
+        },
+        {
+          "path": "references/layout-guides/waking.png",
+          "role": "layout guide only; do not copy visible guide marks"
+        }
+      ],
+      "outputPath": "decoded/waking.png",
+      "frames": 4,
+      "dependsOn": [],
+      "generationSkill": "$imagegen",
+      "coherentSynthesisRequired": true,
+      "generationMode": "edit",
+      "rawOutputPath": "generated/waking.png",
+      "postprocess": {
+        "type": "remove-chroma-key",
+        "autoKey": "border",
+        "softMatte": true,
+        "despill": true
+      }
+    },
+    {
+      "id": "hungry",
+      "kind": "interaction-row-strip",
+      "status": "complete",
+      "promptFile": "prompts/rows/hungry.md",
+      "inputImages": [
+        {
+          "path": "references/canonical-base.png",
+          "role": "canonical pet identity and official idle reference"
+        },
+        {
+          "path": "references/layout-guides/hungry.png",
+          "role": "layout guide only; do not copy visible guide marks"
+        }
+      ],
+      "outputPath": "decoded/hungry.png",
+      "frames": 6,
+      "dependsOn": [],
+      "generationSkill": "$imagegen",
+      "coherentSynthesisRequired": true,
+      "generationMode": "edit",
+      "rawOutputPath": "generated/hungry.png",
+      "postprocess": {
+        "type": "remove-chroma-key",
+        "autoKey": "border",
+        "softMatte": true,
+        "despill": true
+      }
+    },
+    {
+      "id": "dirty",
+      "kind": "interaction-row-strip",
+      "status": "complete",
+      "promptFile": "prompts/rows/dirty.md",
+      "inputImages": [
+        {
+          "path": "references/canonical-base.png",
+          "role": "canonical pet identity and official idle reference"
+        },
+        {
+          "path": "references/layout-guides/dirty.png",
+          "role": "layout guide only; do not copy visible guide marks"
+        }
+      ],
+      "outputPath": "decoded/dirty.png",
+      "frames": 6,
+      "dependsOn": [],
+      "generationSkill": "$imagegen",
+      "coherentSynthesisRequired": true,
+      "generationMode": "edit",
+      "rawOutputPath": "generated/dirty.png",
+      "postprocess": {
+        "type": "remove-chroma-key",
+        "autoKey": "border",
+        "softMatte": true,
+        "despill": true
+      }
+    },
+    {
+      "id": "sick",
+      "kind": "interaction-row-strip",
+      "status": "complete",
+      "promptFile": "prompts/rows/sick.md",
+      "inputImages": [
+        {
+          "path": "references/canonical-base.png",
+          "role": "canonical pet identity and official idle reference"
+        },
+        {
+          "path": "references/layout-guides/sick.png",
+          "role": "layout guide only; do not copy visible guide marks"
+        }
+      ],
+      "outputPath": "decoded/sick.png",
+      "frames": 8,
+      "dependsOn": [],
+      "generationSkill": "$imagegen",
+      "coherentSynthesisRequired": true,
+      "generationMode": "edit",
+      "rawOutputPath": "generated/sick.png",
+      "postprocess": {
+        "type": "remove-chroma-key",
+        "autoKey": "border",
+        "softMatte": true,
+        "despill": true
+      }
+    },
+    {
+      "id": "happy",
+      "kind": "interaction-row-strip",
+      "status": "complete",
+      "promptFile": "prompts/rows/happy.md",
+      "inputImages": [
+        {
+          "path": "references/canonical-base.png",
+          "role": "canonical pet identity and official idle reference"
+        },
+        {
+          "path": "references/layout-guides/happy.png",
+          "role": "layout guide only; do not copy visible guide marks"
+        }
+      ],
+      "outputPath": "decoded/happy.png",
+      "frames": 6,
+      "dependsOn": [],
+      "generationSkill": "$imagegen",
+      "coherentSynthesisRequired": true,
+      "generationMode": "edit",
+      "rawOutputPath": "generated/happy.png",
+      "postprocess": {
+        "type": "remove-chroma-key",
+        "autoKey": "border",
+        "softMatte": true,
+        "despill": true
+      }
+    },
+    {
+      "id": "celebrate",
+      "kind": "interaction-row-strip",
+      "status": "complete",
+      "promptFile": "prompts/rows/celebrate.md",
+      "inputImages": [
+        {
+          "path": "references/canonical-base.png",
+          "role": "canonical pet identity and official idle reference"
+        },
+        {
+          "path": "references/layout-guides/celebrate.png",
+          "role": "layout guide only; do not copy visible guide marks"
+        }
+      ],
+      "outputPath": "decoded/celebrate.png",
+      "frames": 8,
+      "dependsOn": [],
+      "generationSkill": "$imagegen",
+      "coherentSynthesisRequired": true,
+      "generationMode": "edit",
+      "rawOutputPath": "generated/celebrate.png",
+      "postprocess": {
+        "type": "remove-chroma-key",
+        "autoKey": "border",
+        "softMatte": true,
+        "despill": true
+      }
+    },
+    {
+      "id": "refuse",
+      "kind": "interaction-row-strip",
+      "status": "complete",
+      "promptFile": "prompts/rows/refuse.md",
+      "inputImages": [
+        {
+          "path": "references/canonical-base.png",
+          "role": "canonical pet identity and official idle reference"
+        },
+        {
+          "path": "references/layout-guides/refuse.png",
+          "role": "layout guide only; do not copy visible guide marks"
+        }
+      ],
+      "outputPath": "decoded/refuse.png",
+      "frames": 4,
+      "dependsOn": [],
+      "generationSkill": "$imagegen",
+      "coherentSynthesisRequired": true,
+      "generationMode": "edit",
+      "rawOutputPath": "generated/refuse.png",
+      "postprocess": {
+        "type": "remove-chroma-key",
+        "autoKey": "border",
+        "softMatte": true,
+        "despill": true
+      }
+    }
+  ]
+}

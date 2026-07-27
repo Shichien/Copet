@@ -47,7 +47,7 @@ ANIMATIONS = [
         "frames": 8,
         "durationsMs": [140, 140, 160, 180, 180, 150, 150, 260],
         "loop": False,
-        "purpose": "wash, shake off, and return clean",
+        "purpose": "wipe clean while fully clothed, shake off, and settle",
     },
     {
         "id": "playing",
@@ -190,6 +190,7 @@ def choose_chroma_key(canonical_base: Path) -> dict[str, str | int]:
 
 def row_prompt(pet_id: str, animation: dict, chroma_key: dict) -> str:
     state = animation["id"]
+    prompt_state = "fully-clothed pet cleaning" if state == "bathing" else state
     frames = animation["frames"]
     loop_rule = (
         "The final pose must connect naturally back to the first pose."
@@ -197,28 +198,64 @@ def row_prompt(pet_id: str, animation: dict, chroma_key: dict) -> str:
         else "Show a complete beginning, action, and settled ending."
     )
     special = {
-        "feeding": "Keep food touching or held by the pet; never draw a floating inventory item.",
-        "petting": "Do not draw a hand. Show only the pet's physical reaction to pointer petting.",
-        "bathing": "Use only attached opaque foam or droplets; no puddles or translucent scenery.",
-        "playing": "Use an established identity prop when present; otherwise use body movement without a detached toy.",
-        "sleeping": "Keep the motion quiet, the base stable, and the breathing readable at pet size.",
-        "waking": "Begin from a sleeping pose and finish near the canonical idle pose.",
-        "hungry": "Use posture and expression only; no food icons, text, plates, or speech bubbles.",
-        "dirty": "Use posture, fur, material, or expression only; no dirt icons, text, or floating marks.",
-        "sick": "Keep distress gentle and non-graphic; no medical icons, text, or detached effects.",
+        "feeding": (
+            "Use one simple opaque food item such as a small cookie or piece of bread. "
+            "Keep it touching or held by the pet; never draw a floating inventory item. "
+            "Do not draw another character, hand, arm, or body part."
+        ),
+        "petting": (
+            "Do not draw a hand. Show only the pet's physical reaction to pointer petting. "
+            "Do not add hearts, flowers, sparkles, motion marks, icons, or symbols outside the pet silhouette."
+        ),
+        "bathing": (
+            "Draw exactly eight distinct poses, not six. Keep the exact canonical uniform fully worn "
+            "and keep the umbrella touching or held in every pose. Use one small opaque white cleaning "
+            "cloth touching the pet. Keep the umbrella folded and close to the body in the six middle "
+            "poses. Do not add foam, droplets, splashes, water marks, motion marks, or particles."
+        ),
+        "playing": (
+            "Use an established identity prop when present; otherwise use body movement without a detached toy. "
+            "Keep the umbrella folded and close to the body in the six middle poses."
+        ),
+        "sleeping": (
+            "All six poses must show the pet already asleep in the same seated or curled resting posture, "
+            "with closed eyes and only small breathing changes. Do not use a standing pose. Keep the "
+            "umbrella folded and touching the pet. No Z letters, sleep symbols, or detached marks."
+        ),
+        "waking": (
+            "Begin from a sleeping pose and finish near the canonical idle pose. "
+            "Use a yawn and stretch only; no Z letters, sleep symbols, or detached marks."
+        ),
+        "hungry": (
+            "Use posture and expression only; no food icons, text, plates, speech bubbles, "
+            "motion lines, squiggles, or detached marks."
+        ),
+        "dirty": (
+            "Use posture, fur, material, or expression only; no dirt icons, text, or floating marks. "
+            "Keep the umbrella folded and close to the body in the four middle poses."
+        ),
+        "sick": (
+            "Keep distress gentle and non-graphic and express it through face and posture only. "
+            "Keep the exact canonical clothing and umbrella in every pose. Do not add blankets, cups, "
+            "thermometers, steam, breath clouds, scribbles, medical icons, text, effects, or extra items. "
+            "Keep the umbrella folded and close to the body in the six middle poses."
+        ),
         "happy": "Keep the reaction calmer and smaller than the celebrate animation.",
-        "celebrate": "Use a full-body action; no confetti, particles, text, or detached effects.",
+        "celebrate": (
+            "Use a full-body action; no confetti, particles, text, or detached effects. "
+            "Keep the umbrella folded and close to the body in the six middle poses."
+        ),
         "refuse": "Use a head or body gesture; no crosses, warning icons, text, or speech bubbles.",
     }[state]
     return f"""Create one coherent horizontal interaction animation strip for pet `{pet_id}`.
 
 Use the attached canonical idle frame as the exact identity reference and the layout guide only for invisible spacing. Preserve the same face, body proportions, silhouette, palette, materials, markings, clothing, and props.
 
-State: `{state}`.
+State: `{prompt_state}`.
 Purpose: {animation['purpose']}.
 Output exactly {frames} separated, centered, complete full-body poses from left to right. {loop_rule} {special}
 
-Use one flat pure {chroma_key['name']} {chroma_key['hex']} background. Keep every pose inside its own invisible slot with generous padding and a stable baseline. Do not include visible grid lines, labels, interface elements, shadows, scenery, glow, blur, motion streaks, or detached particles. Do not use {chroma_key['hex']} inside the pet.
+Use one flat pure {chroma_key['name']} {chroma_key['hex']} background. Distribute the poses evenly across the full canvas width. Scale the complete pet and every attached prop to fit inside its own invisible equal-width slot. Leave at least 64 pixels of uninterrupted pure background from top to bottom between every two adjacent poses. No silhouette, hair, clothing, prop, effect, or antialiased edge may touch or overlap another pose. Keep a stable baseline. Do not include visible grid lines, labels, interface elements, shadows, scenery, glow, blur, motion streaks, or detached particles. Do not use {chroma_key['hex']} inside the pet.
 """
 
 
